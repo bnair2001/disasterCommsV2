@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Disaster Comms</string>
+    <string name="enter_number">Enter Name</string>
+    <string name="save">Save</string>
+    <string name="blockchain">Blockchain</string>
+    <string name="pay">Publish</string>
+</resources>
