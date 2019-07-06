@@ -12,7 +12,7 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
+
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    TextView trans, progperc;
+    //TextView trans
+    TextView progperc;
     Spinner dropdown;
     Button pay, bc, con;
     //int requestCode = 1;
@@ -198,9 +199,9 @@ public class MainActivity extends AppCompatActivity {
 
             dropdown = (Spinner)findViewById(R.id.spinner1);
             //balance = (TextView) findViewById(R.id.textView);
-            trans = (TextView) findViewById(R.id.textView3);
+            //trans = (TextView) findViewById(R.id.textView3);
             progperc = (TextView) findViewById(R.id.textView4);
-            trans.setMovementMethod(new ScrollingMovementMethod());
+            //trans.setMovementMethod(new ScrollingMovementMethod());
             pay = (Button) findViewById(R.id.button3);
             bc = (Button) findViewById(R.id.button2);
             con = (Button) findViewById(R.id.button4);
@@ -239,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             new consensus().execute("");
             //update_balance();
             //balance.setText("Balance: " + pref.getFloat("balance", 0) + "");
-            trans.setText("" + formatString(pref.getString("locations", "{}")) + "");
+            //trans.setText("" + formatString(pref.getString("locations", "{}")) + "");
 
             pay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                                     t.put("receiver", to);
                                     t.put("message", amt);
                                     t.put("coordinates", coordinates);
-                                    t.put("battery", batLevel);
+                                    //t.put("battery", batLevel);
                                     new_location(t);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -578,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
             progperc.setText("");
             //update_balance();
             //balance.setText("Balance: " + pref.getFloat("balance", 0) + "");
-            trans.setText("" + formatString(pref.getString("locations", "{}")) + "");
+            //trans.setText("" + formatString(pref.getString("locations", "{}")) + "");
             Toast.makeText(MainActivity.this, "Consensus Met", Toast.LENGTH_LONG).show();
         }
     }
