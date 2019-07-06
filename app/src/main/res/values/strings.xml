@@ -4,4 +4,5 @@
     <string name="save">Save</string>
     <string name="blockchain">Blockchain</string>
     <string name="pay">Publish</string>
+    <string name="title_activity_portal">Portal</string>
 </resources>

@@ -49,26 +49,34 @@
         android:id="@+id/editText5"
         android:layout_width="226dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="346dp"
         android:ems="10"
         android:inputType="text"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/button9"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="22dp" />
+        tools:layout_constraintTop_creator="1" />
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="0dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="12dp"
         android:background="@mipmap/club"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/editText5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@+id/editText5"
         app:layout_constraintRight_toRightOf="@+id/editText5"
+        app:layout_constraintTop_toBottomOf="@+id/button5"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -136,7 +144,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="29dp"
         android:layout_marginRight="29dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="36dp"
         android:background="#00FFFFFF"
         android:onClick="netshare"
         android:text="Host Connection"
@@ -145,8 +153,7 @@
         app:layout_constraintBottom_toTopOf="@+id/spinner1"
         app:layout_constraintEnd_toStartOf="@+id/button5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/button9"
@@ -154,24 +161,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
         android:layout_marginLeft="49dp"
-        android:layout_marginTop="373dp"
         android:layout_marginEnd="118dp"
         android:layout_marginRight="118dp"
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="28dp"
         android:background="#00FFFFFF"
-        android:onClick="wpsconnect"
-        android:text="Connect WPS"
+        android:onClick="piweb"
+        android:text="Portal"
         android:textColor="#FFEBEE"
         android:typeface="sans"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toStartOf="@+id/button10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="346dp"
         android:layout_marginEnd="45dp"
         android:layout_marginRight="45dp"
         android:layout_marginBottom="29dp"
@@ -181,7 +188,9 @@
         android:textColor="#FFEBEE"
         android:typeface="sans"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </android.support.constraint.ConstraintLayout>

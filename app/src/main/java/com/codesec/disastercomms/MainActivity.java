@@ -609,23 +609,9 @@ public class MainActivity extends AppCompatActivity {
         return response.toString();
     }
 
-    public void wpsconnect(View view){
-        startActivityForResult(new Intent(Settings.ACTION_WIFI_SETTINGS), 0);
-        Toast.makeText(
-                MainActivity.this,
-                "Here, find an option called WPS. Maybe inside an option called advanced",
-                Toast.LENGTH_LONG
-        ).show();
-        Toast.makeText(
-                MainActivity.this,
-                "Here, find an option called WPS. Maybe inside an option called advanced",
-                Toast.LENGTH_LONG
-        ).show();
-        Toast.makeText(
-                MainActivity.this,
-                "Here, find an option called WPS. Maybe inside an option called advanced",
-                Toast.LENGTH_LONG
-        ).show();
+    public void piweb(View view){
+        Intent myIntent = new Intent(this, Portal.class);
+        startActivity(myIntent);
     }
 
     public void sendMessage(View view)
