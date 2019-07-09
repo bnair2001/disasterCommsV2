@@ -13,6 +13,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
+import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
@@ -64,7 +65,7 @@ import java.util.Set;
 import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
-    String coordinates;
+    String coordinates, amt, to;
     double frequency;
     double signal;
     //int MY_PERMISSIONS_REQUEST_READ_STORAGE;
@@ -106,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.post(run);
+
+//        BatteryManager bm = (BatteryManager)getSystemService(BATTERY_SERVICE);
+//        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+//        double batteryCap = getBatteryCapacity()
 
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener signalListener = new PhoneStateListener() {
@@ -247,14 +252,15 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if(consensus_bool) {
                         try {
-                        String to = dropdown.getSelectedItem().toString();
+                        to = dropdown.getSelectedItem().toString();
                         EditText amount = (EditText) findViewById(R.id.editText5);
-                        String amt;
+
                         if(!amount.getText().toString().isEmpty()) {
                             amt = amount.getText().toString();
                             //double bal = pref.getFloat("balance", 0);
-                            if (to != null ) {
-                                // Make Transaction
+                            int a=0;
+                            if (a==0 ) {
+
                                 JSONObject t = new JSONObject();
                                 try {
                                     t.put("sender", pref.getString("num", ""));
@@ -494,13 +500,13 @@ public class MainActivity extends AppCompatActivity {
                     all_locations.put(location);
                     locations.put(location);
                     locations.put(current_location);
-
                     // Create New Block
                     JSONArray blockchain = new JSONArray(pref.getString("blockchain", ""));
                     JSONObject block = new JSONObject();
                     block.put("index", blockchain.length() + 1);
                     block.put("time", System.currentTimeMillis() / 1000);
                     block.put("locations", coordinates);
+                    block.put("message", amt);
                     block.put("nounce", nounce);
                     block.put("prehash", hash(lb));
                     blockchain.put(block);
