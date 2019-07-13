@@ -28,5 +28,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.koushikdutta.async:androidasync:2.+'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'
