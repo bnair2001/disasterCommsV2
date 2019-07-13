@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final Handler handler = new Handler();
 
+
         Runnable run = new Runnable() {
             @Override
             public void run() {
@@ -108,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
         };
         handler.post(run);
 
-//        BatteryManager bm = (BatteryManager)getSystemService(BATTERY_SERVICE);
-//        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-//        double batteryCap = getBatteryCapacity()
 
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener signalListener = new PhoneStateListener() {
@@ -258,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!amount.getText().toString().isEmpty()) {
                             amt = amount.getText().toString();
                             //double bal = pref.getFloat("balance", 0);
+                            double batpercent=batterypercet();
                             int a=0;
                             if (a==0 ) {
 
@@ -267,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                                     t.put("receiver", to);
                                     t.put("message", amt);
                                     t.put("coordinates", coordinates);
-                                    //t.put("battery", batLevel);
+                                    t.put("battery", batpercent);
                                     new_location(t);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -484,6 +483,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String lb = last_block();
+                    double batpercent=batterypercet();
                     long nounce = 0;
                     int difficulty = pref.getInt("difficulty", 2);
                     // Proof of Work
@@ -507,6 +507,7 @@ public class MainActivity extends AppCompatActivity {
                     block.put("time", System.currentTimeMillis() / 1000);
                     block.put("locations", coordinates);
                     block.put("message", amt);
+                    block.put("battery", batpercent);
                     block.put("nounce", nounce);
                     block.put("prehash", hash(lb));
                     blockchain.put(block);
@@ -741,6 +742,13 @@ public class MainActivity extends AppCompatActivity {
         WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         frequency = wifiInfo.getFrequency() *1000;//Ghz to Mhz
         signal = wifiInfo.getRssi();
+    }
+
+    public double batterypercet(){
+        BatteryManager bm = (BatteryManager)getSystemService(BATTERY_SERVICE);
+        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+
+        return batLevel;
     }
 
     public double getBatteryCapacity(Context context) {
