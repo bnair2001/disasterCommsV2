@@ -63,6 +63,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     String coordinates, amt, to;
@@ -129,7 +131,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 Log.i("Location",location.toString());
-                coordinates = location.toString();
+                String tempy = location.toString();
+                Pattern pattern = Pattern.compile("(gps[^;]*)\\{");
+                Matcher matcher = pattern.matcher(tempy);
+                if (matcher.find())
+                {
+                    coordinates=matcher.group(1);
+                }
+                coordinates = coordinates.replaceAll(" ", "");
+                Log.i("COROROOIROJO", coordinates);
+
             }
 
             @Override
@@ -220,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
                     location.put("coordinates", "11.127122499999999,78.6568942");
                     block.put("index", 1);
                     block.put("time", System.currentTimeMillis() / 1000);
-                    block.put("locations", new JSONArray().put(location));
                     block.put("nounce", 0);
                     block.put("prehash", "0");
                     blockchain.put(block);
