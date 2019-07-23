@@ -679,30 +679,6 @@ public class MainActivity extends AppCompatActivity {
         ).show();
     }
 
-
-    public void netshare(View view)
-    {
-        copyFiletoExternalStorage(R.raw.netshare, "netshare.apk");
-        boolean isAppInstalled = appInstalledOrNot("kha.prog.mikrotik");
-        if(isAppInstalled) {
-            //This intent will help you to launch if the package is already installed
-            Intent LaunchIntent = getPackageManager()
-                    .getLaunchIntentForPackage("kha.prog.mikrotik");
-            startActivity(LaunchIntent);
-
-        } else {
-            Toast.makeText(
-                    MainActivity.this,
-                    "Apk file has been saved to your 'Android' folder, please go there and install it. SDK limitations suggests that you have to do this on your own",
-                    Toast.LENGTH_LONG
-            ).show();
-
-        }
-    }
-
-
-
-
     private void copyFiletoExternalStorage(int resourceId, String resourceName){
         String pathSDCard = Environment.getExternalStorageDirectory() + "/Android/" + resourceName;
         try{

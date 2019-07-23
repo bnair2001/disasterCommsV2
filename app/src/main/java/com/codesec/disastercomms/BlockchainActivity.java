@@ -12,19 +12,12 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.loopj.android.http.*;
-
-
 import com.koushikdutta.async.http.AsyncHttpClient;
 import org.apache.http.HttpResponse;
-
 import org.apache.http.client.HttpClient;
-
 import org.apache.http.client.methods.HttpGet;
-
 import org.apache.http.impl.client.DefaultHttpClient;
-
 import org.apache.http.params.CoreProtocolPNames;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
