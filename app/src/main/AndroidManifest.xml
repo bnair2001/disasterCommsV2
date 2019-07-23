@@ -30,10 +30,11 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".JsonHelper"></activity>
         <activity
             android:name=".Portal"
             android:label="@string/title_activity_portal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".connect" />
         <activity
             android:name=".MainActivity"

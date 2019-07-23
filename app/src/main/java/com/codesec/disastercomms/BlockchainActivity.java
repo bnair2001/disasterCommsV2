@@ -3,6 +3,7 @@ package com.codesec.disastercomms;
 import android.content.SharedPreferences;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,22 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.loopj.android.http.*;
 
 
+import com.koushikdutta.async.http.AsyncHttpClient;
+import org.apache.http.HttpResponse;
 
+import org.apache.http.client.HttpClient;
+
+import org.apache.http.client.methods.HttpGet;
+
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import org.apache.http.params.CoreProtocolPNames;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,23 +37,32 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
+
 public class BlockchainActivity extends AppCompatActivity {
 
     SharedPreferences pref;
     TextView display;
-    String disaster="blockchain";
-    String obj;
+    String disaster = "blockchain";
+    String obj, url;
     String pathSDCard = Environment.getExternalStorageDirectory() + "/Android/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +92,12 @@ public class BlockchainActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String ip=getHotspotAdress();
-                String link = "http://192.168.4.1:3000/sendData";
+
+
+        //String ip=getHotspotAdress();
+                String link = "http://192.168.1.104:6000/sendData";
+                String abc= "{ "+ "\"data\""+":"+obj+" }";
+
                 try {
                     URL url = new URL(link);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -80,17 +107,19 @@ public class BlockchainActivity extends AppCompatActivity {
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
 
-//                    JSONObject jsonParam = new JSONObject();
+                   // JSONObject jsonParam = new JSONObject();
 //                    jsonParam.put("timestamp", 1488873360);
 //                    jsonParam.put("uname", message.getUser());
 //                    jsonParam.put("message", message.getMessage());
 //                    jsonParam.put("latitude", 0D);
 //                    jsonParam.put("longitude", 0D);
 
-                    Log.i("JSON", obj.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-                    os.writeBytes(obj.toString());
+
+                    Log.i("JSON", abc.toString());
+                    OutputStreamWriter os = new OutputStreamWriter(conn.getOutputStream());
+                    //DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(obj.toString(), "UTF-8"));
+                    os.write(obj.toString());
 
                     os.flush();
                     os.close();
@@ -109,24 +138,24 @@ public class BlockchainActivity extends AppCompatActivity {
     }
 
 
-    public String getHotspotAdress(){
-        final WifiManager manager = (WifiManager)super.getSystemService(WIFI_SERVICE);
-        final DhcpInfo dhcp = manager.getDhcpInfo();
-        int ipAddress = dhcp.gateway;
-        ipAddress = (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) ?
-                Integer.reverseBytes(ipAddress) : ipAddress;
-        byte[] ipAddressByte = BigInteger.valueOf(ipAddress).toByteArray();
-        try {
-            InetAddress myAddr = InetAddress.getByAddress(ipAddressByte);
-            return myAddr.getHostAddress();
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            Log.e("Wifi Class", "Error getting Hotspot IP address ", e);
-        }
-        return "null";
-    }
+//    public String getHotspotAdress(){
+//        final WifiManager manager = (WifiManager)super.getSystemService(WIFI_SERVICE);
+//        final DhcpInfo dhcp = manager.getDhcpInfo();
+//        int ipAddress = dhcp.gateway;
+//        ipAddress = (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) ?
+//                Integer.reverseBytes(ipAddress) : ipAddress;
+//        byte[] ipAddressByte = BigInteger.valueOf(ipAddress).toByteArray();
+//        try {
+//            InetAddress myAddr = InetAddress.getByAddress(ipAddressByte);
+//            return myAddr.getHostAddress();
+//        } catch (UnknownHostException e) {
+//            // TODO Auto-generated catch block
+//            Log.e("Wifi Class", "Error getting Hotspot IP address ", e);
+//        }
+//        return "null";
+//    }
 
-    public static String formatString(String text){
+    public static String formatString(String text) {
 
         StringBuilder json = new StringBuilder();
         String indentString = "";

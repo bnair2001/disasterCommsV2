@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Log.i("Location",location.toString());
+                //Log.i("Location",location.toString());
                 String tempy = location.toString();
                 Pattern pattern = Pattern.compile("(gps[^;]*)\\{");
                 Matcher matcher = pattern.matcher(tempy);
@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     coordinates=matcher.group(1);
                 }
                 coordinates = coordinates.replaceAll(" ", "");
+                coordinates = coordinates.replace("\n", "").replace("\r", "");
                 Log.i("COROROOIROJO", coordinates);
 
             }
@@ -226,9 +227,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject block = new JSONObject();
                 try {
                     JSONObject location = new JSONObject();
-                    location.put("locationOf", "Demo");
-                    location.put("receiver", "test");
-                    location.put("coordinates", "11.127122499999999,78.6568942");
                     block.put("index", 1);
                     block.put("time", System.currentTimeMillis() / 1000);
                     block.put("nounce", 0);
