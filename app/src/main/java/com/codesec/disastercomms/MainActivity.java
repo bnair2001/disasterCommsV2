@@ -59,7 +59,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
@@ -225,10 +227,12 @@ public class MainActivity extends AppCompatActivity {
             if (pref.getString("blockchain", "-").equals("-")) {
                 JSONArray blockchain = new JSONArray();
                 JSONObject block = new JSONObject();
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                Log.i("DATETIME", currentDateTimeString);
                 try {
                     JSONObject location = new JSONObject();
                     block.put("index", 1);
-                    block.put("time", System.currentTimeMillis() / 1000);
+                    block.put("time", currentDateTimeString);
                     block.put("nounce", 0);
                     block.put("prehash", "0");
                     blockchain.put(block);
