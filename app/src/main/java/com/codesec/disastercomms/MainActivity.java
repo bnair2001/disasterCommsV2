@@ -2,6 +2,7 @@ package com.codesec.disastercomms;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -27,6 +29,7 @@ import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
     //TextView trans
     TextView progperc;
-    Spinner dropdown;
+    Spinner dropdown, usrdeet;
     Button pay, bc, con;
     //int requestCode = 1;
     SharedPreferences pref;
-
+    final Context context = this;
     boolean consensus_bool = false;
 
     Set<String> nums = new HashSet<String>();
@@ -201,9 +204,21 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     EditText num = (EditText)findViewById(R.id.editText);
+                    EditText add = (EditText)findViewById(R.id.editText1);
+                    EditText phone = (EditText)findViewById(R.id.editText2);
                     String num_s = num.getText().toString();
+                    String user_address=  add.getText().toString();
+                    String user_phnumber = phone.getText().toString();
+
+                    //prompt code starts here
+
+                    //prompt code ends here
+
+
                     if(!num_s.isEmpty()) {
                         pref.edit().putString("num", num_s).apply();
+                        pref.edit().putString("add", user_address);
+                        pref.edit().putString("phone", user_phnumber);
                         Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                         recreate();
                     }
@@ -222,8 +237,11 @@ public class MainActivity extends AppCompatActivity {
             pay = (Button) findViewById(R.id.button3);
             bc = (Button) findViewById(R.id.button2);
             con = (Button) findViewById(R.id.button4);
-
+            String usradd = pref.getString("add", "client");
+            String usrphnumm = pref.getString("phone", "client");
+            String usrnam = pref.getString("num", "client");
             // Genesis Block
+            getdeets();
             if (pref.getString("blockchain", "-").equals("-")) {
                 JSONArray blockchain = new JSONArray();
                 JSONObject block = new JSONObject();
@@ -279,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                                     t.put("message", amt);
                                     t.put("coordinates", coordinates);
                                     t.put("battery", batpercent);
+                                    t.put("userinfo", usrdeet);
                                     new_location(t);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -760,6 +779,47 @@ public class MainActivity extends AppCompatActivity {
 
         return batteryCapacity;
 
+    }
+
+    public void getdeets() {
+        //prompt code starts here
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.prompts, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText userInput = (EditText) promptsView
+                .findViewById(R.id.editTextDialogUserInput);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                // get user input and set it to result
+                                // edit text
+                                //result.setText(userInput.getText());
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+
+        //prompt code ends here
     }
 
     public static String formatString(String text){
