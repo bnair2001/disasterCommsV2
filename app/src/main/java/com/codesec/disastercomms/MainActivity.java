@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     //TextView trans
     TextView progperc;
-    Spinner dropdown, usrdeet;
+    Spinner dropdown;
     Button pay, bc, con;
     //int requestCode = 1;
     SharedPreferences pref;
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     Set<String> nums = new HashSet<String>();
     Set<String> nodes = new HashSet<String>();
     JSONObject current_location = new JSONObject();
+    String usrdeet,usraddress, usrphno;
 
 
 
@@ -237,11 +238,11 @@ public class MainActivity extends AppCompatActivity {
             pay = (Button) findViewById(R.id.button3);
             bc = (Button) findViewById(R.id.button2);
             con = (Button) findViewById(R.id.button4);
-            String usradd = pref.getString("add", "client");
-            String usrphnumm = pref.getString("phone", "client");
-            String usrnam = pref.getString("num", "client");
+            final String usradd = pref.getString("add", "client");
+            final String usrphnumm = pref.getString("phone", "client");
+            //String usrnam = pref.getString("num", "client");
             // Genesis Block
-            getdeets();
+            //getdeets();
             if (pref.getString("blockchain", "-").equals("-")) {
                 JSONArray blockchain = new JSONArray();
                 JSONObject block = new JSONObject();
@@ -287,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                             amt = amount.getText().toString();
                             //double bal = pref.getFloat("balance", 0);
                             double batpercent=batterypercet();
+                            usrdeet = usradd+", "+usrphnumm;
                             int a=0;
                             if (a==0 ) {
 
@@ -791,8 +793,10 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialogBuilder.setView(promptsView);
 
-        final EditText userInput = (EditText) promptsView
+        final EditText address = (EditText) promptsView
                 .findViewById(R.id.editTextDialogUserInput);
+        final EditText number = (EditText) promptsView
+                .findViewById(R.id.editText3);
 
         // set dialog message
         alertDialogBuilder
@@ -803,6 +807,8 @@ public class MainActivity extends AppCompatActivity {
                                 // get user input and set it to result
                                 // edit text
                                 //result.setText(userInput.getText());
+                                usraddress = address.getText().toString();
+                                usrphno = number.getText().toString();
                             }
                         })
                 .setNegativeButton("Cancel",

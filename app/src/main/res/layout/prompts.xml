@@ -17,7 +17,7 @@
         android:id="@+id/editTextDialogUserInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Address">
+        android:text="Address:">
 
         <requestFocus />
 
@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Phone Number" />
+        android:text="Phone Number:" />
 
 </LinearLayout>

@@ -31,7 +31,6 @@
         android:layout_height="109dp"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="22dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="#00FFFFFF"
@@ -40,10 +39,10 @@
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText5"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        tools:layout_editor_absoluteY="118dp" />
 
     <EditText
         android:id="@+id/editText5"
@@ -54,11 +53,9 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="26dp"
         android:layout_marginRight="26dp"
-        android:layout_marginBottom="346dp"
         android:ems="10"
         android:inputType="text"
         android:textColor="#FFEBEE"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner1"
@@ -69,15 +66,13 @@
         android:id="@+id/spinner1"
         android:layout_width="0dp"
         android:layout_height="43dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="59dp"
         android:background="#FFEBEE"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/editText5"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@+id/editText5"
         app:layout_constraintRight_toRightOf="@+id/editText5"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -98,7 +93,7 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_editor_absoluteY="17dp" />
+        tools:layout_editor_absoluteY="49dp" />
 
     <Button
         android:id="@+id/button4"
@@ -115,66 +110,6 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="15dp"
-        android:background="#00FFFFFF"
-        android:onClick="sendMessage"
-        android:text="Make Connection"
-        android:textColor="#FFEBEE"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/spinner1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
-        android:layout_marginBottom="36dp"
-        android:background="#00FFFFFF"
-        android:onClick="netshare"
-        android:text="Host Connection"
-        android:textColor="#FFEBEE"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/spinner1"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginRight="118dp"
-        android:layout_marginBottom="28dp"
-        android:background="#00FFFFFF"
-        android:onClick="piweb"
-        android:text="Portal"
-        android:textColor="#FFEBEE"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button10"
