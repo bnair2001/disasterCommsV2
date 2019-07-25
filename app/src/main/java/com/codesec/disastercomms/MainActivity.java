@@ -72,14 +72,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-    String coordinates, amt, to;
+    String amt, to;
     double frequency;
     double signal;
     //int MY_PERMISSIONS_REQUEST_READ_STORAGE;
     private AsyncHttpServer server = new AsyncHttpServer();
     private AsyncServer mAsyncServer = new AsyncServer();
-/*    LocationManager locationManager;
-    LocationListener locationListener;*/
+    LocationManager locationManager;
+    LocationListener locationListener;
     //int success;
 
 
@@ -92,20 +92,19 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
     final Context context = this;
     boolean consensus_bool = false;
-    String finalloc;
+    String lati,longi,coordinates;
 
     Set<String> nums = new HashSet<String>();
     Set<String> nodes = new HashSet<String>();
     JSONObject current_location = new JSONObject();
-    String usrdeet,usraddress, usrphno;
-    LocationManager locationManager;
-    Context mContext;
+    String usrdeet,usraddress, usrphno, latitude, longitude;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*final Handler handler = new Handler();
+        final Handler handler = new Handler();
 
 
         Runnable run = new Runnable() {
@@ -114,13 +113,44 @@ public class MainActivity extends AppCompatActivity {
                 wifirange();
                 double answer = calculateDistance(signal, frequency);
                 Toast.makeText(MainActivity.this, "Distance in (m): "+ answer, Toast.LENGTH_SHORT).show();
-                handler.postDelayed(this, 20000);
+                con.performClick();
+                handler.postDelayed(this, 300000);
+                //new consensus().execute("");
             }
         };
-        handler.post(run);*/
+        handler.post(run);
 
 
-        /*TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+/*        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListenerNetwork = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                double longitudeNetwork = location.getLongitude();
+                double latitudeNetwork = location.getLatitude();
+                String a = Double.toString(longitudeNetwork);
+                String b  = Double.toString(latitudeNetwork);
+                coordinates = a+", "+b;
+                Log.i("VJGCJVH", coordinates);
+            }
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+            }
+            @Override
+            public void onProviderEnabled(String s) {
+            }
+            @Override
+            public void onProviderDisabled(String s) {
+            }
+        };
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerNetwork);
+        }*/
+
+
+       TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener signalListener = new PhoneStateListener() {
             public void onSignalStrengthChanged(int asu) {
                 //asu is the signal strength
@@ -132,18 +162,14 @@ public class MainActivity extends AppCompatActivity {
 
         telephonyManager.listen(signalListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTH);
 
-*/
-/*        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Log.i("Location",location.toString());
-                double lat = location.getLatitude();
-                double longi = location.getLongitude();
-                String fin = Double.toString(lat);
-                String fin1 = Double.toString(longi);
-                finalloc = fin+", "+fin1;
+                //Toast.makeText(MainActivity.this, location.toString(), Toast.LENGTH_LONG).show();
+                //Log.i("Location",location.toString());
                 String tempy = location.toString();
                 Pattern pattern = Pattern.compile("(gps[^;]*)\\{");
                 Matcher matcher = pattern.matcher(tempy);
@@ -151,11 +177,14 @@ public class MainActivity extends AppCompatActivity {
                 {
                     coordinates=matcher.group(1);
                 }
-                //coordinates = coordinates.replaceAll(" ", "");
-                //coordinates = coordinates.replaceAll("\n", "").replaceAll("\r", "");
-                //coordinates = coordinates.replaceAll("\\s+","");
-                finalloc = finalloc.replaceAll("\\s+","");
-                Log.i("COROROOIROJO", finalloc);
+                coordinates = coordinates.replaceAll(" ", "");
+                coordinates = coordinates.replace("\n", "").replace("\r", "");
+                double longitudeNetwork = location.getLongitude();
+                double latitudeNetwork = location.getLatitude();
+                latitude = Double.toString(latitudeNetwork);
+                longitude  = Double.toString(longitudeNetwork);
+                //coordinates = a+"and"+b;
+                Log.i("COROROOIROJO", coordinates);
 
             }
 
@@ -179,28 +208,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }*/
-
-//location get version 2.0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_WIFI_STATE},1);
@@ -235,11 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     EditText num = (EditText)findViewById(R.id.editText);
-                    EditText add = (EditText)findViewById(R.id.editText1);
-                    EditText phone = (EditText)findViewById(R.id.editText2);
                     String num_s = num.getText().toString();
-                    String user_address=  add.getText().toString();
-                    String user_phnumber = phone.getText().toString();
 
                     //prompt code starts here
 
@@ -248,8 +252,6 @@ public class MainActivity extends AppCompatActivity {
 
                     if(!num_s.isEmpty()) {
                         pref.edit().putString("num", num_s).apply();
-                        pref.edit().putString("add", user_address);
-                        pref.edit().putString("phone", user_phnumber);
                         Toast.makeText(MainActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                         recreate();
                     }
@@ -259,6 +261,22 @@ public class MainActivity extends AppCompatActivity {
         else {
             setContentView(R.layout.activity_main);
             Toast.makeText(this, "Hi " + pref.getString("num", "client") + "!", Toast.LENGTH_LONG).show();
+            //check for name and adress starts
+            String tem = pref.getString("add", "");
+            String tem1 = pref.getString("phno", "");
+            if((tem != "")&&(tem1 != ""))
+            {
+                Toast.makeText(
+                        MainActivity.this,
+                        "All Set !",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+            else
+            {
+                getdeets();
+            }
+            //check for name and adress ends
 
             dropdown = (Spinner)findViewById(R.id.spinner1);
             //balance = (TextView) findViewById(R.id.textView);
@@ -268,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
             pay = (Button) findViewById(R.id.button3);
             bc = (Button) findViewById(R.id.button2);
             con = (Button) findViewById(R.id.button4);
-            final String usradd = pref.getString("add", "");
-            final String usrphnumm = pref.getString("phone", "");
+            //final String usradd = pref.getString("add", "client");
+            //final String usrphnumm = pref.getString("phone", "client");
             //String usrnam = pref.getString("num", "client");
             // Genesis Block
             //getdeets();
@@ -281,8 +299,13 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject location = new JSONObject();
                     block.put("index", 1);
-                    block.put("time", currentDateTimeString);
-                    block.put("location", coordinates);
+                    block.put("name", "sampledata");
+                    block.put("time", "sampledata");
+                    block.put("latitude", "sampledata");
+                    block.put("longitude", "sampledata");
+                    block.put("userdetails", "sampledata");
+                    block.put("meessage", "sampledata");
+                    block.put("battery", 0);
                     block.put("nounce", 0);
                     block.put("prehash", "0");
                     blockchain.put(block);
@@ -310,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
             pay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    usrdeet = usraddress+":"+usrphno;
                     if(consensus_bool) {
                         try {
                         to = dropdown.getSelectedItem().toString();
@@ -319,22 +343,17 @@ public class MainActivity extends AppCompatActivity {
                             amt = amount.getText().toString();
                             //double bal = pref.getFloat("balance", 0);
                             double batpercent=batterypercet();
-                            usrdeet = usradd+", "+usrphnumm;
-                            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                             int a=0;
                             if (a==0 ) {
-                                //Log.i("SHIT", coordinates);
-                                //coordinates = coordinates.replaceAll("\n", "").replaceAll("\r", "");
+
                                 JSONObject t = new JSONObject();
                                 try {
                                     t.put("sender", pref.getString("num", ""));
                                     t.put("receiver", to);
                                     t.put("message", amt);
-                                    t.put("time", currentDateTimeString);
-                                    t.put("userinfo", usrdeet);
-                                    t.put("coordinates", finalloc);
+                                    t.put("coordinates", coordinates.replaceAll("\n", ""));
                                     t.put("battery", batpercent);
-                                    //t.put("userinfo", usrdeet);
+                                    t.put("userinfo", usrdeet);
                                     new_location(t);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -362,12 +381,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
-            con.setOnClickListener(new View.OnClickListener() {
+           con.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new consensus().execute("");
                 }
             });
+
         }
     }
 
@@ -380,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
         mAsyncServer.stop();
     }
 
-   /* @Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -391,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
         }
-    }*/
+    }
 
     @Override
     public void onResume() {
@@ -551,11 +571,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String lb = last_block();
-
                     double batpercent=batterypercet();
                     String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                    //finalloc = finalloc.replaceAll("\n", "");
-
                     long nounce = 0;
                     int difficulty = pref.getInt("difficulty", 2);
                     // Proof of Work
@@ -568,19 +585,19 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject location = new JSONObject();
                     location.put("sender", "0");
                     location.put("receiver", pref.getString("num", ""));
-                    location.put("location", coordinates);
+                    location.put("location", coordinates.replaceAll("\n", ""));
                     all_locations.put(location);
                     locations.put(location);
                     locations.put(current_location);
                     // Create New Block
-                    //finalloc = finalloc.replaceAll("", "");
-                    //usrdeet = usrdeet.replaceAll(" ", "");
                     JSONArray blockchain = new JSONArray(pref.getString("blockchain", ""));
                     JSONObject block = new JSONObject();
                     block.put("index", blockchain.length() + 1);
+                    block.put("name", pref.getString("num", ""));
                     block.put("time", currentDateTimeString);
-                    block.put("locations", coordinates);
-                    //block.put("user details", usrdeet);
+                    block.put("latitude", latitude);
+                    block.put("longitude", longitude);
+                    block.put("userdetails", usrdeet);
                     block.put("message", amt);
                     block.put("battery", batpercent);
                     block.put("nounce", nounce);
@@ -851,6 +868,8 @@ public class MainActivity extends AppCompatActivity {
                                 //result.setText(userInput.getText());
                                 usraddress = address.getText().toString();
                                 usrphno = number.getText().toString();
+                                pref.edit().putString("add", usraddress).apply();
+                                pref.edit().putString("phno", usrphno).apply();
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -866,8 +885,32 @@ public class MainActivity extends AppCompatActivity {
         // show it
         alertDialog.show();
 
-
         //prompt code ends here
+    }
+
+    private boolean isLocationEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
     }
 
     public static String formatString(String text){
