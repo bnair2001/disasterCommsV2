@@ -31,18 +31,21 @@
         android:layout_height="109dp"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
+        android:layout_marginBottom="423dp"
         android:background="#00FFFFFF"
         android:text="@string/pay"
         android:textColor="#FFEBEE"
         android:typeface="sans"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText5"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_editor_absoluteY="118dp" />
+        tools:layout_constraintTop_creator="1" />
 
     <EditText
         android:id="@+id/editText5"
@@ -53,9 +56,11 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="26dp"
         android:layout_marginRight="26dp"
+        android:layout_marginBottom="426dp"
         android:ems="10"
         android:inputType="text"
         android:textColor="#FFEBEE"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner1"
@@ -110,24 +115,6 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="346dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:layout_marginBottom="29dp"
-        android:background="#00FFFFFF"
-        android:onClick="walkietalkie"
-        android:text="Walkie Talkie"
-        android:textColor="#FFEBEE"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        app:layout_constraintVertical_bias="0.0" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
     //int MY_PERMISSIONS_REQUEST_READ_STORAGE;
     private AsyncHttpServer server = new AsyncHttpServer();
     private AsyncServer mAsyncServer = new AsyncServer();
-    LocationManager locationManager;
-    LocationListener locationListener;
+/*    LocationManager locationManager;
+    LocationListener locationListener;*/
     //int success;
 
 
@@ -92,18 +92,20 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
     final Context context = this;
     boolean consensus_bool = false;
+    String finalloc;
 
     Set<String> nums = new HashSet<String>();
     Set<String> nodes = new HashSet<String>();
     JSONObject current_location = new JSONObject();
     String usrdeet,usraddress, usrphno;
-
+    LocationManager locationManager;
+    Context mContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Handler handler = new Handler();
+        /*final Handler handler = new Handler();
 
 
         Runnable run = new Runnable() {
@@ -115,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, 20000);
             }
         };
-        handler.post(run);
+        handler.post(run);*/
 
 
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        /*TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener signalListener = new PhoneStateListener() {
             public void onSignalStrengthChanged(int asu) {
                 //asu is the signal strength
@@ -130,13 +132,18 @@ public class MainActivity extends AppCompatActivity {
 
         telephonyManager.listen(signalListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTH);
 
-
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+*/
+/*        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                //Log.i("Location",location.toString());
+                Log.i("Location",location.toString());
+                double lat = location.getLatitude();
+                double longi = location.getLongitude();
+                String fin = Double.toString(lat);
+                String fin1 = Double.toString(longi);
+                finalloc = fin+", "+fin1;
                 String tempy = location.toString();
                 Pattern pattern = Pattern.compile("(gps[^;]*)\\{");
                 Matcher matcher = pattern.matcher(tempy);
@@ -144,9 +151,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     coordinates=matcher.group(1);
                 }
-                coordinates = coordinates.replaceAll(" ", "");
-                coordinates = coordinates.replace("\n", "").replace("\r", "");
-                Log.i("COROROOIROJO", coordinates);
+                //coordinates = coordinates.replaceAll(" ", "");
+                //coordinates = coordinates.replaceAll("\n", "").replaceAll("\r", "");
+                //coordinates = coordinates.replaceAll("\\s+","");
+                finalloc = finalloc.replaceAll("\\s+","");
+                Log.i("COROROOIROJO", finalloc);
 
             }
 
@@ -170,7 +179,28 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }
+        }*/
+
+//location get version 2.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_WIFI_STATE},1);
@@ -238,8 +268,8 @@ public class MainActivity extends AppCompatActivity {
             pay = (Button) findViewById(R.id.button3);
             bc = (Button) findViewById(R.id.button2);
             con = (Button) findViewById(R.id.button4);
-            final String usradd = pref.getString("add", "client");
-            final String usrphnumm = pref.getString("phone", "client");
+            final String usradd = pref.getString("add", "");
+            final String usrphnumm = pref.getString("phone", "");
             //String usrnam = pref.getString("num", "client");
             // Genesis Block
             //getdeets();
@@ -252,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject location = new JSONObject();
                     block.put("index", 1);
                     block.put("time", currentDateTimeString);
+                    block.put("location", coordinates);
                     block.put("nounce", 0);
                     block.put("prehash", "0");
                     blockchain.put(block);
@@ -289,17 +320,21 @@ public class MainActivity extends AppCompatActivity {
                             //double bal = pref.getFloat("balance", 0);
                             double batpercent=batterypercet();
                             usrdeet = usradd+", "+usrphnumm;
+                            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                             int a=0;
                             if (a==0 ) {
-
+                                //Log.i("SHIT", coordinates);
+                                //coordinates = coordinates.replaceAll("\n", "").replaceAll("\r", "");
                                 JSONObject t = new JSONObject();
                                 try {
                                     t.put("sender", pref.getString("num", ""));
                                     t.put("receiver", to);
                                     t.put("message", amt);
-                                    t.put("coordinates", coordinates);
-                                    t.put("battery", batpercent);
+                                    t.put("time", currentDateTimeString);
                                     t.put("userinfo", usrdeet);
+                                    t.put("coordinates", finalloc);
+                                    t.put("battery", batpercent);
+                                    //t.put("userinfo", usrdeet);
                                     new_location(t);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -345,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
         mAsyncServer.stop();
     }
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -356,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
         }
-    }
+    }*/
 
     @Override
     public void onResume() {
@@ -516,7 +551,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String lb = last_block();
+
                     double batpercent=batterypercet();
+                    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                    //finalloc = finalloc.replaceAll("\n", "");
+
                     long nounce = 0;
                     int difficulty = pref.getInt("difficulty", 2);
                     // Proof of Work
@@ -534,11 +573,14 @@ public class MainActivity extends AppCompatActivity {
                     locations.put(location);
                     locations.put(current_location);
                     // Create New Block
+                    //finalloc = finalloc.replaceAll("", "");
+                    //usrdeet = usrdeet.replaceAll(" ", "");
                     JSONArray blockchain = new JSONArray(pref.getString("blockchain", ""));
                     JSONObject block = new JSONObject();
                     block.put("index", blockchain.length() + 1);
-                    block.put("time", System.currentTimeMillis() / 1000);
+                    block.put("time", currentDateTimeString);
                     block.put("locations", coordinates);
+                    //block.put("user details", usrdeet);
                     block.put("message", amt);
                     block.put("battery", batpercent);
                     block.put("nounce", nounce);

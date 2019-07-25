@@ -88,8 +88,10 @@ public class BlockchainActivity extends AppCompatActivity {
 
 
         //String ip=getHotspotAdress();
-                String link = "http://192.168.1.104:6000/sendData";
+                String link = "http://192.168.1.104:5000/sendData";
                 String abc= "{ "+ "\"data\""+":"+obj+" }";
+                //abc = abc.replace(" ", "");
+                //abc = abc.replaceAll("\\s+","");
 
                 try {
                     URL url = new URL(link);
@@ -106,13 +108,11 @@ public class BlockchainActivity extends AppCompatActivity {
 //                    jsonParam.put("message", message.getMessage());
 //                    jsonParam.put("latitude", 0D);
 //                    jsonParam.put("longitude", 0D);
-
-
                     Log.i("JSON", abc.toString());
                     OutputStreamWriter os = new OutputStreamWriter(conn.getOutputStream());
                     //DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                     //os.writeBytes(URLEncoder.encode(obj.toString(), "UTF-8"));
-                    os.write(obj.toString());
+                    os.write(abc.toString());
 
                     os.flush();
                     os.close();
